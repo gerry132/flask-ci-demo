@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+    function regUser() {
+        console.log(12345);
+        let first = document.getElementById("fname").value;
+        let second = document.getElementById("lname").value;
+        let user = document.getElementById("uname").value;
+
+        console.log(user);
+        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+        xmlhttp.open("POST", "http://127.0.0.1:5000/register_user");
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify({username: user, 
+                        first_name: first, 
+                        last_name: second}));
+    }
+
+function delUser() {
+
+        let user = document.getElementById("del_uname").value;
+
+        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+        xmlhttp.open("DELETE", "http://127.0.0.1:5000/delete_user");
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify({username: user}));
+    }
+
+function getUsers() {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    };
+
+    request.open('GET', 'http://127.0.0.1:5000/get_users');
+    request.send();
+}
+
+</script>
+
+<h2>REGISTER NEW USER</h2>
+<div class="user_reg">
+    <form id="user_reg">
+            <label for="fname">First name:</label><br>
+            <input type="text" required="required" id="fname" name="fname"><br>
+            <label for="lname">Last name:</label><br>
+            <input type="text" required="required" id="lname" name="lname"><br><br>
+            <label for="lname">User name:</label><br>
+            <input type="text" required="required" id="uname" name="lname"><br><br>
+            <input type="button" value="Submit" onclick="regUser()">
+    </form>
+</div>
+
+<h2>DELETE USER</h2>
+<div class="user_del">
+    <form id="user_del">
+            <input type="text" required="required" id="del_uname" name="lname"><br><br>
+            <input type="button" value="Submit" onclick="delUser()">
+    </form>
+</div>
+
+
+<h2>GET EXISTING USERS</h2>
+<div class="users">
+    <form id="user_del">
+            <input type="button" value="Submit" onclick="getUsers()">
+    </form>
+    <div id="usercon">
+
+    </div>
+</div>
+
+{% endblock %}
